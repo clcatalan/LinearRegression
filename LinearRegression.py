@@ -5,21 +5,17 @@ from sklearn import linear_model
 from sklearn.utils import shuffle
 
 
-print("-------Student Final Grade Predicter-------")
+print("------------STUDENT FINAL GRADE PREDICTER------------")
+print("|")
+print("|")
+print("|")
 #read the csv file, then remove the sep in the csv
 data = pd.read_csv("student-mat.csv", sep=';')
 #print(data.head())
 
 
 #------------function definitions--------
-"""def readInput():
-    idx = int(input('Enter Student Number: '))
-    print(len(data))
-    if idx >= 0 and idx < len(data):
-        return idx
-    else:
-        print('Invalid Input')
-        return -1"""
+
 
 def exportBestAndWorstToCsv():
     compression_opts = dict(method='zip',
@@ -44,9 +40,6 @@ def printPredictions():
     center = 'Predicted Grade'
     rightAlign = 'Actual Grade'
 
-
-    print(len(predictions))
-    print(len(y_test))
     print("-----------------------RESULTS-----------------------")
     print("| Model Accuracy: ",acc)
     print("|-------")
@@ -57,7 +50,6 @@ def printPredictions():
 
 #----------start of app----------
 
-#stdNo = readInput()
 avg = [0] * len(data)
 for x, row in data.iterrows():
     avg[x] = (row["G1"] + row["G2"] + row["G3"]) / 3
