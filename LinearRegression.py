@@ -3,6 +3,10 @@ import pandas as pd
 import sklearn
 from sklearn import linear_model
 from sklearn.utils import shuffle
+import matplotlib.pyplot as plt
+import pickle
+
+from matplotlib import style
 
 
 print("------------STUDENT FINAL GRADE PREDICTER------------")
@@ -41,12 +45,22 @@ def printPredictions():
     rightAlign = 'Actual Grade'
 
     print("-----------------------RESULTS-----------------------")
-    print("| Model Accuracy: ",acc)
-    print("|-------")
+    #print("| Model Accuracy: ",acc)
+    #print("|-------")
     print(f"| {leftAlign:<15}{center:^10}{rightAlign:>15}")
     for i in range(len(predictions)):
         print(f"| {i:<15}{predictions[i]:^10}{y_test[i]:>15}")
     print("-----------------------------------------------------")
+
+def printPlot():
+    attr = "traveltime" 
+    style.use("ggplot")
+    plt.scatter(data[attr], data["G3"])
+    plt.xlabel(attr)
+    plt.ylabel("Final Grade")
+    plt.show()
+    
+    
 
 #----------start of app----------
 
@@ -78,16 +92,32 @@ it would simply just memorize the patterns.
 
 """
 X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X,y,test_size = 0.1)
+"""
+bestAcc = 0
 
-linear = linear_model.LinearRegression()
 
-#find best fit line for X and y training data
-linear.fit(X_train, y_train)
-#get accuracy of model
-acc = linear.score(X_test, y_test)
+for _ in range(50):
+    X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(X,y,test_size = 0.1)
+
+    linear = linear_model.LinearRegression()
+
+    #find best fit line for X and y training data
+    linear.fit(X_train, y_train)
+    #get accuracy of model
+    acc = linear.score(X_test, y_test)
+    
+    if acc > bestAcc:
+        bestAcc = acc
+        print(bestAcc)
+        with open("stdModel.pickle", "wb") as f:
+            pickle.dump(linear, f)"""
+
+pickle_in = open("stdModel.pickle", "rb")
+linear = pickle.load(pickle_in)
 
 predictions = linear.predict(X_test)
 printPredictions()
+printPlot()
 
 
 
